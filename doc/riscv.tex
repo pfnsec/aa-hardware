@@ -1,0 +1,38 @@
+
+\documentclass[a4paper,12pt]{refrep}
+\title{riscv}
+
+\usepackage{color}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\usepackage{graphicx}
+\usepackage{pstricks}
+\usepackage{tikz}
+\usepackage{textcomp}
+\usetikzlibrary{shapes,arrows}
+% Definition of blocks:
+\tikzset{%
+  block/.style    = {draw, thick, rectangle, minimum height = 3em,
+    minimum width = 3em},
+  sum/.style      = {draw, circle, node distance = 2cm}, % Adder
+  input/.style    = {coordinate}, % Input
+  output/.style   = {coordinate} % Output
+}
+
+\begin{document}
+\chapter{An In-order RISC-V Subset Core}
+
+
+\section{Abstract}
+This article documents the architecture and operation of an in-order,
+5-stage pipelined CPU core implementing a subset of the 32-bit 
+RISC-V rv32ui instruction set. 
+
+\begin{figure}
+\input{riscv_pipeline}
+    \caption{Pipeline}
+\end{figure}
+
+
+\end{document}

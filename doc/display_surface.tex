@@ -1,0 +1,46 @@
+\documentclass[a4paper,12pt]{refrep}
+\title{aa-kernel}
+\usepackage{color}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\begin{document}
+\chapter{\code{display\_surface} - An HDMI Framebuffer Peripheral}
+
+\section{Abstract}
+\code{display\_surface} is a video display peripheral comprising an 
+HDMI transmitter and a custom AXI master, 
+automatically accessing a framebuffer located in host memory 
+and displaying it over a TMDS channel. This project was developed
+using the Digilent Zybo, and is capable of rendering a frame 
+or sequence of frames with next to no load on the CPU.
+
+\section{Architecture}
+\subsection{Clocking}
+The clocks for the AXI master and the TMDS encoder may differ. 
+This clock crossing is resolved by alternating banks 
+of a dual-port block RAM functioning as a FIFO.
+
+The timing of the switch-over of these banks is constrained 
+such that the stream of output pixels to the transmitter never 
+underruns.
+
+\subsection{The TMDS Encoder}
+The TMDS encoder (see \code{tmds\_channel.v}) is a 4-stage pipelined 
+module implementing the algorithm outlined in the Digital 
+Video Interface specification. 
+
+\subsection{The AXI Master - Framebuffer DMA}
+The AXI Master feeds the HDMI transmitter FIFO with data from host 
+memory (DRAM). It issues AXI burst transactions whenever space is
+available in the FIFO, and when the end of the screen is reached,
+it either starts on the next framebuffer or loops back to the 
+current framebuffer. It may also send an interrupt to the CPU, 
+if enabled.
+\subsection{The AXI Slave - Configuration Registers}
+The AXI config registers are the means by which the CPU provides a 
+4k-aligned address to read the framebuffer(s) from, as well as select
+double-buffering and enable interrupts. 
+
+
+\end{document}

@@ -1,0 +1,23 @@
+\begin{tikzpicture}[auto, thick, node distance=3cm, >=triangle 45]
+\centering
+\draw
+	node at (0,0) (Q1) {}
+	node [block, below of=Q1]    (fetch) {Fetch/Unpack}
+	node [block, below of=fetch] (reserve) {Register Reserve}
+	node [block, below of=reserve] (rfetch) {Register Fetch}
+	node [block, below of=rfetch] (dcd) {Decode}
+	node [block, below of=dcd] (alu) {ALU}
+	node [block, right of=alu] (mem) {Memory Ops}
+	node [block, left of=alu] (brc) {Branch Ops}
+	node [block, below of=alu] (wb) {Writeback}
+    ;
+	\draw[-](fetch)  -- (reserve);
+	\draw[-](reserve)  -- (rfetch);
+	\draw[-](rfetch)  -- (dcd);
+	\draw[-](dcd)  -- (alu);
+	\draw[-](dcd)  -- (mem);
+	\draw[-](dcd)  -- (brc);
+	\draw[-](alu)  -- (wb);
+	\draw[-](mem)  -- (wb);
+	\draw[-](brc)  -- (wb);
+\end{tikzpicture}
